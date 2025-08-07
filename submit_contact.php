@@ -36,7 +36,7 @@ if (
     </head>
 
     <body>
-        <div class="container mt-4">
+        <div class="container mt-4 d-flex justify-content-center">
             <div class="alert alert-danger">
                 <h4>Erreur !</h4>
                 <p>Il faut un email et un message valides pour soumettre le formulaire.</p>
@@ -70,7 +70,7 @@ if (
     ?>
 
     <body>
-        <div class="container mt-4">
+        <div class="container mt-4 d-flex justify-content-center">
             <div class="alert alert-danger">
                 <h4>Erreur !</h4>
                 <p>Il faut une capture d'écran valide pour soumettre le formulaire.</p>
@@ -116,33 +116,34 @@ if (
     </head>
 
     <body>
-        <div class="container">
+        <div class="container d-flex justify-content-center flex-column">
             <?php require_once __DIR__ . "/header.php"; ?>
-            <h1>Message bien reçu !</h1>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Rappel de vos informations</h5>
-                    <p class="card-text"><b>Email</b> : <?php echo htmlspecialchars($postData["email"], ENT_QUOTES, 'UTF-8'); ?></p>
-                    <p class="card-text"><b>Message</b> : <?php echo htmlspecialchars(strip_tags($postData["message"]), ENT_QUOTES, 'UTF-8'); ?></p>
+            <div class="d-flex justify-content-center flex-column">
+                <h1 class="text-center">Message bien reçu !</h1>
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Rappel de vos informations</h5>
+                        <p class="card-text"><b>Email</b> : <?php echo htmlspecialchars($postData["email"], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p class="card-text"><b>Message</b> : <?php echo htmlspecialchars(strip_tags($postData["message"]), ENT_QUOTES, 'UTF-8'); ?></p>
 
-                    <?php if ($uploadSuccess): ?>
-                        <div class="mb-3">
-                            <p class="card-text"><b>Fichier uploadé</b> : <?php echo htmlspecialchars($safeName, ENT_QUOTES, 'UTF-8'); ?></p>
-                            <figure class="figure">
-                                <img src="<?php echo htmlspecialchars('uploads/' . $safeName, ENT_QUOTES, 'UTF-8'); ?>"
-                                    alt="<?php echo htmlspecialchars('Capture d\'écran - ' . (isset($fileinfo["filename"]) ? $fileinfo["filename"] : 'Image'), ENT_QUOTES, 'UTF-8'); ?>"
-                                    class="img-fluid"
-                                    style="max-width: 500px;">
-                                <figcaption class="figure-caption">Votre capture d'écran</figcaption>
-                            </figure>
-                        </div>
-                    <?php else: ?>
-                        <div class="mb-3">
-                            <p class="card-text text-warning"><b>Erreur</b> : Le fichier n'a pas pu être uploadé.</p>
-                        </div>
-                    <?php endif; ?>
+                        <?php if ($uploadSuccess): ?>
+                            <div class="mb-3">
+                                <p class="card-text"><b>Fichier uploadé</b> : <?php echo htmlspecialchars($safeName, ENT_QUOTES, 'UTF-8'); ?></p>
+                                <figure class="figure">
+                                    <img class="rounded mx-auto d-block" src="<?php echo htmlspecialchars('uploads/' . $safeName, ENT_QUOTES, 'UTF-8'); ?>"
+                                        alt="<?php echo htmlspecialchars('Capture d\'écran - ' . (isset($fileinfo["filename"]) ? $fileinfo["filename"] : 'Image'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        style="max-width: 500px;">
+                                    <figcaption class="figure-caption">Votre capture d'écran</figcaption>
+                                </figure>
+                            </div>
+                        <?php else: ?>
+                            <div class="mb-3">
+                                <p class="card-text text-warning"><b>Erreur</b> : Le fichier n'a pas pu être uploadé.</p>
+                            </div>
+                        <?php endif; ?>
 
-                    <a href="contact.php" class="btn btn-primary">Retour au formulaire</a>
+                        <a href="contact.php" class="btn btn-primary">Retour au formulaire</a>
+                    </div>
                 </div>
             </div>
         </div>
