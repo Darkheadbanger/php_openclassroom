@@ -1,14 +1,12 @@
 <?php
 session_start();
-// Redirection automatique vers la page de reicipe si l'utilisateur est déjà connecté
-if (isset($_SESSION["user"]) || isset($_SESSION["user"]["logged_in"])) {
+
+// Redirection automatique si déjà connecté
+if (isset($_SESSION["user"]) && $_SESSION["user"]["logged_in"] === true) {
     header("location: recipe.php");
     exit;
-} else {
-    // Si l'utilisateur n'est pas connecté, on continue avec le formulaire de connexion
-    header("location: login.php");
-    exit;
 }
+
 // Utilisateurs factices pour le test
 $users = [
     [
@@ -25,6 +23,7 @@ $users = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars(isset($_POST['email']) ? $_POST['email'] : '');
     $motDePasse = isset($_POST['password']) ? $_POST['password'] : '';
+    $userFound = false;
 
     // Validation basique
     if (empty($email) || empty($motDePasse) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
