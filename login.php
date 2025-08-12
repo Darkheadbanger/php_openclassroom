@@ -39,6 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'email' => $email,
                     'logged_in' => true
                 ];
+                
+                // Créer un cookie sécurisé pour mémoriser l'utilisateur
+                setcookie(
+                    'LOGGED_USER',
+                    $email,
+                    [
+                        'expires' => time() + 365*24*3600, // 1 an
+                        'secure' => true,
+                        'httponly' => true,
+                    ]
+                );
+                
                 $userFound = true;
                 break;
             }
