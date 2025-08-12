@@ -1,0 +1,8 @@
+# Interdire l'accès direct aux fichiers de configuration
+Order deny,allow
+Deny from all
+
+# Alternative pour Apache 2.4+
+<RequireAll>
+    Require all denied
+</RequireAll>
