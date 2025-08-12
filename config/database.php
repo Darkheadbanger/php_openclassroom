@@ -6,7 +6,7 @@
 // Configuration de la base de données
 const DB_CONFIG = [
     'host' => 'localhost',
-    'dbname' => 'partage_de_recettes',
+    'dbname' => 'partage_de_recette',
     'username' => 'root',
     'password' => 'root', // Changez selon votre configuration WAMP
     'charset' => 'utf8mb4',
