@@ -8,46 +8,12 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['logged_in'] !== true) {
 }
 
 // Base de données simulée - Recettes
-$recipes = [
-    [
-        'title' => 'Crêpes au chocolat',
-        'recipe' => 'Mélanger la farine, les œufs et le lait. Ajouter le chocolat fondu. Cuire dans une poêle chaude.',
-        'author' => 'test@example.com',
-        'is_enabled' => true,
-    ],
-    [
-        'title' => 'Salade César',
-        'recipe' => 'Laver la salade, ajouter des croûtons, du parmesan et la sauce César. Mélanger délicatement.',
-        'author' => 'admin@site.com',
-        'is_enabled' => true,
-    ],
-    [
-        'title' => 'Pasta Carbonara',
-        'recipe' => 'Cuire les pâtes. Dans une poêle, faire revenir les lardons. Mélanger œufs et parmesan, ajouter aux pâtes chaudes.',
-        'author' => 'test@example.com',
-        'is_enabled' => true,
-    ],
-    [
-        'title' => 'Tarte aux pommes',
-        'recipe' => 'Préparer la pâte brisée. Éplucher et découper les pommes. Disposer sur la pâte et cuire 30min à 180°C.',
-        'author' => 'admin@site.com',
-        'is_enabled' => false, // Recette désactivée
-    ],
-];
+include_once 'config/requetteRecipe.php';
+$recipes = $recipesFetched;
 
 // Utilisateurs pour afficher les auteurs
-$users = [
-    [
-        'email' => 'test@example.com',
-        'full_name' => 'David Bouhaben',
-        'age' => 28,
-    ],
-    [
-        'email' => 'admin@site.com',
-        'full_name' => 'Marie Dupont',
-        'age' => 35,
-    ],
-];
+include_once 'requetteUsers.php';
+$users = $usersFetched;
 
 // Fonction pour récupérer seulement les recettes activées
 function getRecipes($recipes)
@@ -98,9 +64,9 @@ function displayAuthor($authorEmail, $users)
                 <?php foreach (getRecipes($recipes) as $recipe) { ?>
                     <article class="card mb-4">
                         <div class="card-body">
-                            <h3 class="card-title"><?php echo htmlspecialchars($recipe['title']); ?></h3>
-                            <div class="card-text">
-                                <p><strong>Recette :</strong> <?php echo htmlspecialchars($recipe['recipe']); ?></p>
+                            <div>
+                                <h3><?php echo htmlspecialchars($recipe['title']); ?></h3>
+                                <p><?php echo nl2br(htmlspecialchars($recipe['description'])); ?></p>
                             </div>
                             <footer class="text-muted">
                                 Par <?php echo htmlspecialchars(displayAuthor($recipe['author'], $users)); ?>

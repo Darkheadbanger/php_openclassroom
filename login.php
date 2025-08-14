@@ -8,16 +8,8 @@ if (isset($_SESSION["user"]) && $_SESSION["user"]["logged_in"] === true) {
 }
 
 // Utilisateurs factices pour le test
-$users = [
-    [
-        'email' => 'test@example.com',
-        'password' => password_hash('123456', PASSWORD_DEFAULT)
-    ],
-    [
-        'email' => 'admin@site.com',
-        'password' => password_hash('admin123', PASSWORD_DEFAULT)
-    ]
-];
+include_once 'requetteUsers.php';
+$users = $usersFetched;
 
 // Vérifier si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
