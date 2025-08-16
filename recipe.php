@@ -50,7 +50,28 @@ function displayAuthor($authorEmail, $users)
             <div class="col-md-8">
                 <h1>Nos délicieuses recettes</h1>
                 <p>Bonjour <strong><?php echo htmlspecialchars($_SESSION['user']['email']); ?></strong> !</p>
-                <p>Voici la liste de nos recettes disponibles :</p>
+                
+                <!-- Messages de succès/erreur -->
+                <?php if (isset($_GET['success'])): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ✅ Votre recette a été ajoutée avec succès !
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($_GET['error'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ❌ Erreur : <?php echo htmlspecialchars($_GET['error']); ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Formulaire d'ajout de recette -->
+                <?php include_once './CRUD/recettes/addRecipeForm.php'; ?>
+                
+                <hr class="my-4">
+                
+                <h2>Liste des recettes disponibles :</h2>
 
                 <!-- Affichage des recettes -->
                 <?php
