@@ -38,6 +38,8 @@ function displayAuthor($authorEmail, $users)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <script type="text/javascript" src="./assets/js/forms/addRecipeForm.js"></script>
     <title>Recettes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -50,7 +52,7 @@ function displayAuthor($authorEmail, $users)
             <div class="col-md-8">
                 <h1>Nos délicieuses recettes</h1>
                 <p>Bonjour <strong><?php echo htmlspecialchars($_SESSION['user']['email']); ?></strong> !</p>
-                
+
                 <!-- Messages de succès/erreur -->
                 <?php if (isset($_GET['success'])): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -58,19 +60,19 @@ function displayAuthor($authorEmail, $users)
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 <?php endif; ?>
-                
+
                 <?php if (isset($_GET['error'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         ❌ Erreur : <?php echo htmlspecialchars($_GET['error']); ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 <?php endif; ?>
-                
+
                 <!-- Formulaire d'ajout de recette -->
                 <?php include_once './CRUD/recettes/addRecipeForm.php'; ?>
-                
+
                 <hr class="my-4">
-                
+
                 <h2>Liste des recettes disponibles :</h2>
 
                 <!-- Affichage des recettes -->
