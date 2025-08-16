@@ -1,6 +1,11 @@
 <?php
 // Formulaire d'ajout de recette
 // Ce fichier contient UNIQUEMENT le HTML du formulaire
+
+// Générer token CSRF si pas encore fait
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 ?>
 
 <div class="card mt-4">
@@ -9,6 +14,9 @@
     </div>
     <div class="card-body">
         <form method="POST" action="CRUD/recettes/addRecipes.php" class="needs-validation" novalidate>
+            <!-- Token CSRF pour la sécurité -->
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+            
             <!-- Titre de la recette -->
             <div class="mb-3">
                 <label for="title" class="form-label">Titre de la recette</label>

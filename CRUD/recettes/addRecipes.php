@@ -7,11 +7,7 @@
 
 session_start();
 
-// Protection : utilisateur connecté requis
-if (!isset($_SESSION['user']) || !$_SESSION['user']['logged_in']) {
-    header('Location: ../../login.php');
-    exit;
-}
+include_once __DIR__ . '/../../authentification/authentificationVerif.php';
 
 // Traitement uniquement si formulaire soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($title) || empty($description)) {
             throw new Exception('Le titre et la description sont obligatoires.');
         }
-        if( !is_string($author) || !is_int($is_enabled)){
+        if (!is_string($author) || !is_int($is_enabled)) {
             throw new Exception('Auteur ou statut invalide.');
         }
         if (strlen($title) > 255 || strlen($title) === 0 || strlen($description) === 0) {

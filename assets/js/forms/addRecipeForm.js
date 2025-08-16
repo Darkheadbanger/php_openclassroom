@@ -32,9 +32,23 @@ function addButton() {
           event.preventDefault();
           event.stopPropagation();
         } else {
-          event.preventDefault();
           event.stopPropagation();
-          form.classList.add("was-validated");
+          fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+          })
+            .then((response) => {
+              if (response.ok) {
+                // Traitement en cas de succès
+                console.log("Recette ajoutée avec succès !");
+              } else {
+                // Traitement en cas d'erreur
+                console.error("Erreur lors de l'ajout de la recette.");
+              }
+            })
+            .catch((error) => {
+              console.error("Erreur réseau :", error);
+            });
         }
       },
       false
