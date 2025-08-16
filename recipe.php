@@ -7,14 +7,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['logged_in'] !== true) {
     exit;
 }
 
-// Base de données simulée - Recettes
-include_once 'config/requetteRecipe.php';
-$recipes = $recipesFetched;
-
-// Utilisateurs pour afficher les auteurs
-include_once 'requetteUsers.php';
-$users = $usersFetched;
-
 // Fonction pour récupérer seulement les recettes activées
 function getRecipes($recipes)
 {
@@ -61,19 +53,21 @@ function displayAuthor($authorEmail, $users)
                 <p>Voici la liste de nos recettes disponibles :</p>
 
                 <!-- Affichage des recettes -->
-                <?php foreach (getRecipes($recipes) as $recipe) { ?>
-                    <article class="card mb-4">
-                        <div class="card-body">
-                            <div>
-                                <h3><?php echo htmlspecialchars($recipe['title']); ?></h3>
-                                <p><?php echo nl2br(htmlspecialchars($recipe['description'])); ?></p>
-                            </div>
-                            <footer class="text-muted">
-                                Par <?php echo htmlspecialchars(displayAuthor($recipe['author'], $users)); ?>
-                            </footer>
+                <?php
+                // Base de données - Recettes depuis la nouvelle structure CRUD
+                include_once './CRUD/recettes/fetchAllRecipes.php';
+                include_once './CRUD/recettes/fetchTitleAndAuthorRecipes.php';
+                $recipesAll = $recipesFetchedAll;
+                $recipes = $recipesFetched;
+                ?>
+                <div class="recipe-list">
+                    <?php foreach ($recipes as $recipe) : ?>
+                        <div class="recipe">
+                            <h2><?php echo htmlspecialchars($recipe['title']); ?></h2>
+                            <p><?php echo htmlspecialchars($recipe['author']); ?></p>
                         </div>
-                    </article>
-                <?php } ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
 
             <div class="col-md-4">
@@ -95,7 +89,7 @@ function displayAuthor($authorEmail, $users)
                         <h5>Statistiques</h5>
                     </div>
                     <div class="card-body">
-                        <p><strong><?php echo count(getRecipes($recipes)); ?></strong> recettes disponibles</p>
+                        <p><strong><?php echo count(getRecipes($recipesAll)); ?></strong> recettes disponibles</p>
                         <p>Connecté en tant que :<br>
                             <strong><?php echo htmlspecialchars($_SESSION['user']['email']); ?></strong>
                         </p>
