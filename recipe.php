@@ -1,11 +1,8 @@
 <?php
 session_start();
 
-// Protection : Rediriger vers login si pas connecté
-if (!isset($_SESSION['user']) || $_SESSION['user']['logged_in'] !== true) {
-    header('Location: login.php');
-    exit;
-}
+// Protection d'authentification centralisée
+include_once __DIR__ . '/authentification/authentificationVerif.php';
 
 // Fonction pour récupérer seulement les recettes activées
 function getRecipes($recipes)

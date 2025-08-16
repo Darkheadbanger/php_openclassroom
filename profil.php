@@ -1,10 +1,8 @@
 <?php
 session_start();
-// Protection, reviens sur login.php si pas connecté
-if (!isset($_SESSION['user']) || $_SESSION['user']['logged_in'] !== true) {
-    header('Location: login.php');
-    exit;
-}
+
+// Protection d'authentification centralisée
+include_once __DIR__ . '/authentification/authentificationVerif.php';
 
 $loggedUser = isset($_COOKIE["LOGGED_USER"]) ? $_COOKIE["LOGGED_USER"] : null;
 ?>

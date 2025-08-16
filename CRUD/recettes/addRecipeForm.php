@@ -2,6 +2,9 @@
 // Formulaire d'ajout de recette
 // Ce fichier contient UNIQUEMENT le HTML du formulaire
 
+// Protection d'authentification (requis pour accéder au formulaire)
+include_once __DIR__ . '/../../authentification/authentificationVerif.php';
+
 // Générer token CSRF si pas encore fait
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
