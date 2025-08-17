@@ -90,7 +90,7 @@ function displayAuthor($authorEmail, $users)
                             </div>
                             <div class="d-flex">
                                 <button class="btn btn-light btn-sm m-2">Voir la recette</button>
-                                <a href="" id="modifier <?php echo $recipe["id"] ?>"><button class="btn btn-warning btn-sm m-2">Modifier</button></a>
+                                <a href="./modifiedRecipeForm.php?id=<?php echo htmlspecialchars($recipe["id"]); ?>" id="modifier"><button class="btn btn-warning btn-sm m-2">Modifier</button></a>
                                 <button class="btn btn-danger btn-sm m-2">Supprimer</button>
                             </div>
                         </div>
