@@ -1,16 +1,25 @@
 <?php
-
-/**
- * Traitement d'ajout de recette
- * Ce fichier traite UNIQUEMENT les données POST du formulaire
- */
-
 session_start();
 
 include_once __DIR__ . '/../../authentification/authentificationVerif.php';
 
+// Inclusion du rate limiter
+require_once __DIR__ . '/../../config/rateLimiter.php';
+
 // Traitement uniquement si formulaire soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Vérification rate limiting (3 recettes max par heure)
+    if (!checkAddRecipeLimit($_SESSION['user']['id'], 'add_recipe', 3, 3600)) {
+        $error = urlencode('Limite de 3 recettes par heure atteinte. Veuillez patienter.');
+        header("Location: ../../recipe.php?error=$error");
+        exit;
+    }
+    
+    // Vérification honeypot anti-bot
+    if (!empty($_POST['honeypot'])) {
+        die('🤖 Bot détecté !');
+    }
 
     // Inclusion de la connexion BDD
     require_once __DIR__ . '/../../config/databaseConnect.php';

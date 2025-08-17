@@ -12,6 +12,10 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 if (empty($_SESSION["csrf_token"])) {
     $_SESSION["csrf_token"] = bin2hex(random_bytes(16));
 }
+
+if (!empty($_POST['honeypot'])) {
+    die('🤖 Bot détecté !');
+}
 ?>
 
 <div class="card mt-4">
