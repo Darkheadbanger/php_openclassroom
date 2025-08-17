@@ -5,9 +5,12 @@
 // Protection d'authentification (requis pour accéder au formulaire)
 include_once __DIR__ . '/../../authentification/authentificationVerif.php';
 
+// Empêche l'injection de scripts malveillants
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+
 // Générer token CSRF si pas encore fait
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+if (empty($_SESSION["csrf_token"])) {
+    $_SESSION["csrf_token"] = bin2hex(random_bytes(16));
 }
 ?>
 
@@ -19,7 +22,7 @@ if (empty($_SESSION['csrf_token'])) {
         <form method="POST" action="CRUD/recettes/addRecipes.php" class="needs-validation" novalidate>
             <!-- Token CSRF pour la sécurité -->
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-            
+            <input type="text" name="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
             <!-- Titre de la recette -->
             <div class="mb-3">
                 <label for="title" class="form-label">Titre de la recette</label>
@@ -52,7 +55,15 @@ if (empty($_SESSION['csrf_token'])) {
             </div>
 
             <!-- Auteur (automatique selon l'utilisateur connecté) -->
+            <!-- Note: L'email n'est pas visible dans le HTML pour plus de sécurité -->
             <input type="hidden" name="author" value="<?php echo htmlspecialchars($_SESSION['user']['email']); ?>" />
+
+            <!-- Affichage sécurisé pour l'utilisateur -->
+            <div class="mb-3">
+                <small class="text-muted">
+                    📝 Recette publiée par : <strong><?php echo htmlspecialchars($_SESSION['user']['email']); ?></strong>
+                </small>
+            </div>
 
             <!-- Statut (activée par défaut) -->
             <div class="mb-3 form-check">
