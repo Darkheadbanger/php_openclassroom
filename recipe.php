@@ -37,6 +37,7 @@ function displayAuthor($authorEmail, $users)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <script type="text/javascript" src="./assets/js/forms/addRecipeForm.js"></script>
+    <script type="text/javascript" src="./assets/js/buttons/buttonOpenClosed.js"></script>
     <title>Recettes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -54,14 +55,14 @@ function displayAuthor($authorEmail, $users)
                 <?php if (isset($_GET['success'])): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         ✅ Votre recette a été ajoutée avec succès !
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-close sucess-close-button" data-bs-dismiss="alert"></button>
                     </div>
                 <?php endif; ?>
 
                 <?php if (isset($_GET['error'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         ❌ Erreur : <?php echo htmlspecialchars($_GET['error']); ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-danger-close" data-bs-dismiss="alert"></button>
                     </div>
                 <?php endif; ?>
 
@@ -82,9 +83,16 @@ function displayAuthor($authorEmail, $users)
                 ?>
                 <div class="recipe-list">
                     <?php foreach ($recipes as $recipe) : ?>
-                        <div class="recipe">
-                            <h2><?php echo htmlspecialchars($recipe['title']); ?></h2>
-                            <p><?php echo htmlspecialchars($recipe['author']); ?></p>
+                        <div class="recipe d-flex justify-content-between align-items-center p-3 mb-2 bg-primary text-white rounded">
+                            <div class="d-flex flex-column">
+                                <h2><?php echo htmlspecialchars($recipe['title']); ?></h2>
+                                <p><?php echo htmlspecialchars($recipe['author']); ?></p>
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn btn-light btn-sm m-2">Voir la recette</button>
+                                <a href="" id="modifier <?php echo $recipe["id"] ?>"><button class="btn btn-warning btn-sm m-2">Modifier</button></a>
+                                <button class="btn btn-danger btn-sm m-2">Supprimer</button>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 </div>

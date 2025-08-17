@@ -10,7 +10,7 @@ require_once __DIR__ . '/../../config/rateLimiter.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Vérification rate limiting (3 recettes max par heure)
-    if (!checkAddRecipeLimit($_SESSION['user']['id'], 'add_recipe', 3, 3600)) {
+    if (!checkAddRecipeLimit($_SESSION['user']['id'], 'add_recipe', 100, 3600)) {
         $error = urlencode('Limite de 3 recettes par heure atteinte. Veuillez patienter.');
         header("Location: ../../recipe.php?error=$error");
         exit;

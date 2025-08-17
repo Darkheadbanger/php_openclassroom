@@ -5,8 +5,15 @@
 // Protection d'authentification (requis pour accéder au formulaire)
 include_once __DIR__ . '/../../authentification/authentificationVerif.php';
 
-// Empêche l'injection de scripts malveillants
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+// CSP complet pour Bootstrap + sécurité
+header("Content-Security-Policy: " .
+    "default-src 'self'; " .
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
+    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
+    "font-src 'self' https://fonts.gstatic.com; " .
+    "img-src 'self' data:; " .
+    "connect-src 'self'"
+);
 
 // Générer token CSRF si pas encore fait
 if (empty($_SESSION["csrf_token"])) {
