@@ -6,19 +6,9 @@ try {
     $pdo = getDatabaseConnection();
 
     // ✅ Requête sécurisée avec marqueurs
-    $sqlQuery = "SELECT title, author FROM recipes WHERE author = :author AND is_enabled = :is_enabled";
+    $sqlQuery = "SELECT id, title, author FROM recipes WHERE is_enabled = 1";
     $recipeStatement = $pdo->prepare($sqlQuery);
-
-    // ✅ Exécution avec valeurs DYNAMIQUES selon les besoins
-
-    // Cas 1 : Si on veut les recettes d'un auteur spécifique (depuis URL par exemple)
-    $authorToSearch = $_GET["author"] ?? "davidbouhaben@yahoo.co.id";
-
-    $recipeStatement->execute([
-        "author" => $authorToSearch,
-        "is_enabled" => true,
-    ]);
-
+    $recipeStatement->execute();
 
     $recipesFetched = $recipeStatement->fetchAll();
 } catch (Exception $e) {

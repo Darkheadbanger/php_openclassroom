@@ -28,8 +28,8 @@ function displayAuthor($authorEmail, $users)
 
     return $authorEmail; // Si pas trouvé, afficher l'email
 }
-
-include_once './CRUD/users/getUserId.php';
+include_once './CRUD/recettes/fetchAllRecipes.php';
+include_once './CRUD/recettes/fetchRecipesByAuthor.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -78,8 +78,6 @@ include_once './CRUD/users/getUserId.php';
                 <!-- Affichage des recettes -->
                 <?php
                 // Base de données - Recettes depuis la nouvelle structure CRUD
-                include_once './CRUD/recettes/fetchAllRecipes.php';
-                include_once './CRUD/recettes/fetchTitleAndAuthorRecipes.php';
                 $recipesAll = $recipesFetchedAll;
                 $recipes = $recipesFetched;
                 ?>
