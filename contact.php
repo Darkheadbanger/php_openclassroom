@@ -1,3 +1,9 @@
+<?php
+
+// Protection CSRF et Honeypot
+include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 

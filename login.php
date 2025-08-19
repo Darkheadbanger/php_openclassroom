@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// Protection CSRF et Honeypot
+include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
+
 // Redirection automatique si déjà connecté
 if (isset($_SESSION["user"]) && $_SESSION["user"]["logged_in"] === true) {
     header("location: recipe.php");

@@ -6,23 +6,17 @@
 include_once __DIR__ . '/../../authentification/authentificationVerif.php';
 
 // CSP complet pour Bootstrap + sécurité
-header("Content-Security-Policy: " .
-    "default-src 'self'; " .
-    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
-    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
-    "font-src 'self' https://fonts.gstatic.com; " .
-    "img-src 'self' data:; " .
-    "connect-src 'self'"
+header(
+    "Content-Security-Policy: " .
+        "default-src 'self'; " .
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
+        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
+        "font-src 'self' https://fonts.gstatic.com; " .
+        "img-src 'self' data:; " .
+        "connect-src 'self'"
 );
 
-// Générer token CSRF si pas encore fait
-if (empty($_SESSION["csrf_token"])) {
-    $_SESSION["csrf_token"] = bin2hex(random_bytes(16));
-}
-
-if (!empty($_POST['honeypot'])) {
-    die('🤖 Bot détecté !');
-}
+include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
 ?>
 
 <div class="card mt-4">
