@@ -16,7 +16,7 @@ include_once __DIR__ . '/authentification/authentificationVerif.php';
 </head>
 
 <body>
-    <?php include_once './CRUD/recettes/addRecipeForm.php'; ?>
+    <?php include_once './views/forms/recipe-form.php'; ?>
 </body>
 
 </html>

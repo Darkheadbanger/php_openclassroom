@@ -69,7 +69,7 @@ include_once './CRUD/recettes/fetchRecipesByAuthor.php';
                 <?php endif; ?>
 
                 <!-- Formulaire d'ajout de recette -->
-                <?php include_once './CRUD/recettes/addRecipeForm.php'; ?>
+                <?php include_once './views/forms/recipe-form.php'; ?>
 
                 <hr class="my-4">
 
