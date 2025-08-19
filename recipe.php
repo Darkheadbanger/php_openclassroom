@@ -28,6 +28,8 @@ function displayAuthor($authorEmail, $users)
 
     return $authorEmail; // Si pas trouvé, afficher l'email
 }
+
+include_once './CRUD/users/getUserId.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -90,7 +92,7 @@ function displayAuthor($authorEmail, $users)
                             </div>
                             <div class="d-flex">
                                 <button class="btn btn-light btn-sm m-2">Voir la recette</button>
-                                <a href="./modifiedRecipeForm.php?id=<?php echo htmlspecialchars($recipe["id"]); ?>" id="modifier"><button class="btn btn-warning btn-sm m-2">Modifier</button></a>
+                                <a href="./modifiedRecipeForm.php?id=<?php echo htmlspecialchars($userId) ?>" id="modifier"><button class="btn btn-warning btn-sm m-2">Modifier</button></a>
                                 <button class="btn btn-danger btn-sm m-2">Supprimer</button>
                             </div>
                         </div>
