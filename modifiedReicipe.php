@@ -1,7 +1,4 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 include_once __DIR__ . '/authentification/authentificationVerif.php';
 $recipeId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$recipeId) {

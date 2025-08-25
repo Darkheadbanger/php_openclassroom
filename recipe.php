@@ -1,7 +1,4 @@
 <?php
-if (session_start() === PHP_SESSION_NONE) {
-    session_start();
-}
 // Protection d'authentification centralisée
 include_once __DIR__ . '/authentification/authentificationVerif.php';
 
@@ -78,57 +75,41 @@ $FORM_RECIPE_ID = null;
                 <hr class="my-4">
 
                 <h2>Liste des recettes disponibles :</h2>
-
+                <!-- ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIII -->
                 <!-- Affichage des recettes -->
                 <?php
-                // Base de données - Recettes depuis la nouvelle structure CRUD
-                $recipesAll = $recipesFetchedAll;
-                $recipes = $recipesFetched;
+                include_once __DIR__ . '/views/component/recipesInformation.php';
                 ?>
-                <div class="recipe-list">
-                    <?php foreach ($recipes as $recipe) : ?>
-                        <div class="recipe d-flex justify-content-between align-items-center p-3 mb-2 bg-primary text-white rounded">
-                            <div class="d-flex flex-column">
-                                <h2><?php echo htmlspecialchars($recipe['title']); ?></h2>
-                                <p><?php echo htmlspecialchars($recipe['author']); ?></p>
-                            </div>
-                            <div class="d-flex">
-                                <button class="btn btn-light btn-sm m-2">Voir la recette</button>
-                                <a href="./modifiedReicipe.php?id=<?php echo htmlspecialchars($recipe['id']); ?>" class="btn btn-warning btn-sm m-2">Modifier</a>
-                                <button class="btn btn-danger btn-sm m-2">Supprimer</button>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Navigation</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="contact.php" class="btn btn-info">Formulaire de contact</a>
+                        <a href="login.php" class="btn btn-secondary">Retour au login</a>
+                        <a href="logout.php" class="btn btn-danger">Se déconnecter</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Navigation</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-grid gap-2">
-                            <a href="contact.php" class="btn btn-info">Formulaire de contact</a>
-                            <a href="login.php" class="btn btn-secondary">Retour au login</a>
-                            <a href="logout.php" class="btn btn-danger">Se déconnecter</a>
-                        </div>
-                    </div>
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5>Statistiques</h5>
                 </div>
-
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h5>Statistiques</h5>
-                    </div>
-                    <div class="card-body">
-                        <p><strong><?php echo count(getRecipes($recipesAll)); ?></strong> recettes disponibles</p>
-                        <p>Connecté en tant que :<br>
-                            <strong><?php echo htmlspecialchars($_SESSION['user']['email']); ?></strong>
-                        </p>
-                    </div>
+                <div class="card-body">
+                    <p><strong><?php echo count(getRecipes($recipesAll)); ?></strong> recettes disponibles</p>
+                    <p>Connecté en tant que :<br>
+                        <strong><?php echo htmlspecialchars($_SESSION['user']['email']); ?></strong>
+                    </p>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </body>
 

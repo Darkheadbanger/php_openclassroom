@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérification rate limiting (3 recettes max par heure)
     if (!checkAddRecipeLimit($_SESSION['user']['id'], 'add_recipe', 100, 3600)) {
         $error = urlencode('Limite de 3 recettes par heure atteinte. Veuillez patienter.');
-        header("Location: ../../recipe.php?error=$error");
+        header("Location: /php_openclassroom/recipe.php?error=$error");
         exit;
     }
     
@@ -57,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result) {
             // Succès : redirection avec message
-            header('Location: ../../recipe.php?success=1');
+            error_log("Redirection vers recipe.php avec succès");
+            header('Location: /php_openclassroom/recipe.php?success=1');
             exit;
         } else {
             throw new Exception('Erreur lors de l\'ajout de la recette.');
@@ -65,11 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         // Erreur : redirection avec message d'erreur
         $error = urlencode($e->getMessage());
-        header("Location: ../../recipe.php?error=$error");
+        header("Location: /php_openclassroom/recipe.php?error=$error");
         exit;
     }
 } else {
     // Accès direct : redirection
-    header('Location: ../../recipe.php');
+    header('Location: /php_openclassroom/recipe.php');
     exit;
 }
