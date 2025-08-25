@@ -7,9 +7,11 @@ include_once __DIR__ . '/../../authentification/authentificationVerif.php';
 include_once __DIR__ . '/../../assets/protection/contentSecurityPolicy.php';
 include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
 // include_once __DIR__ . '/../../CRUD/recettes/fetchTitleAndAuthorRecipes.php';
+include_once __DIR__ . '/../../recipe.php';
+include_once __DIR__ . '/../../modifiedRecipe.php';
 // Fetch des recettes de l'auteur
-$isEditMode = isset($_GET['id']) && !empty($_GET['id']);
-$recipeId = null;
+$isEditMode = $FORM_MODE === 'edit';
+$recipeId = $FORM_RECIPE_ID;
 
 try {
     if (!$isEditMode) {

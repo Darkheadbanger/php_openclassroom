@@ -30,6 +30,9 @@ function displayAuthor($authorEmail, $users)
 }
 include_once './CRUD/recettes/fetchAllRecipes.php';
 include_once './CRUD/recettes/fetchRecipesByAuthor.php';
+
+$FORM_MODE = 'create';
+$FORM_RECIPE_ID = null;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
