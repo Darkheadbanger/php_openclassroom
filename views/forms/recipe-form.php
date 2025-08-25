@@ -4,30 +4,55 @@
 
 // Protection d'authentification (requis pour accéder au formulaire)
 include_once __DIR__ . '/../../authentification/authentificationVerif.php';
-
-// CSP complet pour Bootstrap + sécurité
-header(
-    "Content-Security-Policy: " .
-        "default-src 'self'; " .
-        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
-        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " .
-        "font-src 'self' https://fonts.gstatic.com; " .
-        "img-src 'self' data:; " .
-        "connect-src 'self'"
-);
-
+include_once __DIR__ . '/../../assets/protection/contentSecurityPolicy.php';
 include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
+// include_once __DIR__ . '/../../CRUD/recettes/fetchTitleAndAuthorRecipes.php';
+// Fetch des recettes de l'auteur
+$isEditMode = isset($_GET['id']) && !empty($_GET['id']);
+$recipeId = null;
+
+try {
+    if (!$isEditMode) {
+        $isEditMode = false;
+    } else {
+        $recipeId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    }
+} catch (Exception $e) {
+    echo "<div class='alert alert-danger'>Erreur lors de la récupération de la recette de la base de données : " . htmlspecialchars($e->getMessage()) . "</div>";
+    $isEditMode = false;
+}
+// Inclure le fichier de récupération des recettes après avoir défini $recipeId
+include_once __DIR__ . '/../../CRUD/recettes/fetchRecipesByAuthor.php';
+
+// Vérification pour le mode édition
+if ($recipeId) {
+    if (empty($existingRecipe)) {
+        echo "<div class='alert alert-warning'>Aucune recette trouvée.</div>";
+        $isEditMode = false;
+    }
+}
+
+$pageTitle = $isEditMode ? "Modifier la recette" : "Ajouter une nouvelle recette";
+$actionUrl = $isEditMode ? "CRUD/recettes/updateRecipes.php" : "CRUD/recettes/addRecipes.php";
+$submitText = $isEditMode ? "Modifier la recette" : "Ajouter une nouvelle recette";
+$submitIcon = $isEditMode ? "✏️" : "➕";
+$submitClass = $isEditMode ? "btn-warning" : "btn-success";
+
 ?>
 
 <div class="card mt-4">
     <div class="card-header">
-        <h5>➕ Ajouter une nouvelle recette</h5>
+        <h5><?php echo htmlspecialchars($pageTitle); ?></h5>
     </div>
     <div class="card-body">
-        <form method="POST" action="CRUD/recettes/addRecipes.php" class="needs-validation" novalidate>
+        <form method="POST" action="<?php echo htmlspecialchars($actionUrl); ?>" class="needs-validation" novalidate>
             <!-- Token CSRF pour la sécurité -->
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <input type="text" name="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
+            <!-- ID en mode édition -->
+            <?php if ($isEditMode && $recipeId): ?>
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($recipeId); ?>">
+            <?php endif; ?>
             <!-- Titre de la recette -->
             <div class="mb-3">
                 <label for="title" class="form-label">Titre de la recette</label>
@@ -38,6 +63,7 @@ include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
                     name="title"
                     required
                     maxlength="255"
+                    value="<?php echo htmlspecialchars($existingRecipe['title'] ?? ''); ?>"
                     placeholder="Ex: Tarte aux pommes de grand-mère">
                 <div class="invalid-feedback">
                     Veuillez saisir un titre pour votre recette.
@@ -53,7 +79,7 @@ include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
                     name="description"
                     rows="6"
                     required
-                    placeholder="Décrivez les étapes de préparation de votre recette..."></textarea>
+                    placeholder="Décrivez les étapes de préparation de votre recette..."><?php echo htmlspecialchars($existingRecipe['description'] ?? ''); ?></textarea>
                 <div class="invalid-feedback">
                     Veuillez décrire les instructions de votre recette.
                 </div>
@@ -66,7 +92,7 @@ include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
             <!-- Affichage sécurisé pour l'utilisateur -->
             <div class="mb-3">
                 <small class="text-muted">
-                    📝 Recette publiée par : <strong><?php echo htmlspecialchars($_SESSION['user']['email']); ?></strong>
+                    📝 Recette <?php echo $isEditMode ? "modifiée" : "ajoutée"; ?> par : <strong><?php echo htmlspecialchars($_SESSION['user']['email']); ?></strong>
                 </small>
             </div>
 
@@ -78,9 +104,9 @@ include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
                     id="is_enabled"
                     name="is_enabled"
                     value="1"
-                    checked>
+                    <?php echo ($existingRecipe['is_enabled'] ?? 1) ? 'checked' : ''; ?>>
                 <label class="form-check-label" for="is_enabled">
-                    Publier immédiatement cette recette
+                    <?php echo $isEditMode ? "Mettre à jour" : "Publier"; ?> immédiatement cette recette
                 </label>
             </div>
 
@@ -89,8 +115,8 @@ include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
                 <button type="button" class="btn btn-secondary" id="cancelButton">
                     Annuler
                 </button>
-                <button type="submit" class="btn btn-success">
-                    ➕ Ajouter la recette
+                <button type="submit" class="btn btn-<?php echo htmlspecialchars($submitClass); ?>">
+                    <?php echo $submitIcon; ?> <?php echo htmlspecialchars($submitText); ?>
                 </button>
             </div>
         </form>
