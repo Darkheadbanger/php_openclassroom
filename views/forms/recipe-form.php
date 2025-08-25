@@ -6,36 +6,24 @@
 include_once __DIR__ . '/../../authentification/authentificationVerif.php';
 include_once __DIR__ . '/../../assets/protection/contentSecurityPolicy.php';
 include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
-// include_once __DIR__ . '/../../CRUD/recettes/fetchTitleAndAuthorRecipes.php';
-include_once __DIR__ . '/../../recipe.php';
-include_once __DIR__ . '/../../modifiedRecipe.php';
-// Fetch des recettes de l'auteur
-$isEditMode = $FORM_MODE === 'edit';
-$recipeId = $FORM_RECIPE_ID;
 
-try {
-    if (!$isEditMode) {
-        $isEditMode = false;
-    } else {
-        $recipeId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-    }
-} catch (Exception $e) {
-    echo "<div class='alert alert-danger'>Erreur lors de la récupération de la recette de la base de données : " . htmlspecialchars($e->getMessage()) . "</div>";
-    $isEditMode = false;
-}
-// Inclure le fichier de récupération des recettes après avoir défini $recipeId
-include_once __DIR__ . '/../../CRUD/recettes/fetchRecipesByAuthor.php';
+// ✅ Utiliser les variables de contexte définies par la page parente
+$isEditMode = isset($FORM_MODE) && $FORM_MODE === 'edit';
+$recipeId = $isEditMode ? $FORM_RECIPE_ID : null;
+$existingRecipe = [];
 
-// Vérification pour le mode édition
-if ($recipeId) {
+// Si mode édition, récupérer les données existantes
+if ($isEditMode && $recipeId) {
+    include_once __DIR__ . '/../../CRUD/recettes/fetchRecipesByAuthor.php';
+
     if (empty($existingRecipe)) {
-        echo "<div class='alert alert-warning'>Aucune recette trouvée.</div>";
+        echo '<div class="alert alert-danger">Recette non trouvée ou accès non autorisé.</div>';
         $isEditMode = false;
     }
 }
 
 $pageTitle = $isEditMode ? "Modifier la recette" : "Ajouter une nouvelle recette";
-$actionUrl = $isEditMode ? "CRUD/recettes/updateRecipes.php" : "CRUD/recettes/addRecipes.php";
+$actionUrl = $isEditMode ? "../../CRUD/recettes/updateRecipes.php" : "../../CRUD/recettes/addRecipes.php";
 $submitText = $isEditMode ? "Modifier la recette" : "Ajouter une nouvelle recette";
 $submitIcon = $isEditMode ? "✏️" : "➕";
 $submitClass = $isEditMode ? "btn-warning" : "btn-success";

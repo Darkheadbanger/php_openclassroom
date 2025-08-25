@@ -1,6 +1,7 @@
 <?php
-session_start();
-
+if (session_start() === PHP_SESSION_NONE) {
+    session_start();
+}
 // Protection d'authentification centralisée
 include_once __DIR__ . '/authentification/authentificationVerif.php';
 
@@ -93,7 +94,7 @@ $FORM_RECIPE_ID = null;
                             </div>
                             <div class="d-flex">
                                 <button class="btn btn-light btn-sm m-2">Voir la recette</button>
-                                <a href="./modifiedRecipeForm.php?id=<?php echo htmlspecialchars($recipe['id']); ?>" id="modifier"><button class="btn btn-warning btn-sm m-2">Modifier</button></a>
+                                <a href="./modifiedReicipe.php?id=<?php echo htmlspecialchars($recipe['id']); ?>" class="btn btn-warning btn-sm m-2">Modifier</a>
                                 <button class="btn btn-danger btn-sm m-2">Supprimer</button>
                             </div>
                         </div>
