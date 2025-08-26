@@ -5,7 +5,7 @@
                 ?>
                 <div class="recipe-list">
                     <?php foreach ($recipes as $recipe): ?>
-                        <div class="recipe d-flex justify-content-between align-items-center p-3 mb-2 bg-primary text-white rounded">
+                        <div class="recipe d-flex justify-content-between align-items-center p-3 mb-2 bg-primary text-white rounded" data-recipe-id="<?php echo htmlspecialchars($recipe["id"]); ?>">
                             <div class="d-flex flex-column">
                                 <h2><?php echo htmlspecialchars(
                                         $recipe["title"]
@@ -20,9 +20,9 @@
                                                                                                                     $recipe["id"]
                                                                                                                 ); ?>">Modifier</a></button>
                                 <form action="../../CRUD/recettes/deleteReicipe.php" method="POST">
-                                    <input type="hidden" id="id" name="id" value="<?php echo htmlspecialchars($recipe["id"]) ?>" />
+                                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($recipe["id"]) ?>" />
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']) ?>" />
-                                    <button class="btn btn-danger btn-sm m-2" id="delete_button">Supprimer</button>
+                                    <button class="btn btn-danger btn-sm m-2 delete-button" type="button">Supprimer</button>
                                 </form>
                             </div>
                         </div>
