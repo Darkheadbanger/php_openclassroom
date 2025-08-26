@@ -23,7 +23,7 @@ if ($isEditMode && $recipeId) {
 }
 
 $pageTitle = $isEditMode ? "Modifier la recette" : "Ajouter une nouvelle recette";
-$actionUrl = $isEditMode ? "/php_openclassroom/CRUD/recettes/updateRecipes.php" : "/php_openclassroom/CRUD/recettes/addRecipes.php";
+$actionUrl = $isEditMode ? "/php_openclassroom/CRUD/recettes/updateRecipe.php" : "/php_openclassroom/CRUD/recettes/addRecipes.php";
 $submitText = $isEditMode ? "Modifier la recette" : "Ajouter une nouvelle recette";
 $submitIcon = $isEditMode ? "✏️" : "➕";
 $submitClass = $isEditMode ? "btn-warning" : "btn-success";

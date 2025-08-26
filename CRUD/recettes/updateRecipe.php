@@ -1,14 +1,32 @@
 <?php
-require_once __DIR__ . "/../../config/databaseConnect.php";
+include_once __DIR__ . '/../../authentification/authentificationVerif.php';
+
+// Inclusion du rate limiter
+require_once __DIR__ . '/../../config/rateLimiter.php';
+require_once __DIR__ . '/../../services/RecipeService.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Vérification rate limiting (100 modifications max par heure)
+    rateLimitingValidation($userId, 'update_recipe', 100, 3600);
+
+    include_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
+
+    require_once __DIR__ . "/../../config/databaseConnect.php";
 
     try {
+        // Récupération et validation des données
+        $title = trim($_POST['title'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $author = $_SESSION['user']['email']; // Auteur = utilisateur connecté
+        $is_enabled = isset($_POST['is_enabled']) ? 1 : 0;
+        // Validation côté serveur
+        serverValidation($title, $description, $author, $is_enabled);
         $pdo = getDatabaseConnection();
         $updateStmt = $pdo->prepare("UPDATE recipes SET title = :title, description = :description WHERE id = :id");
         $result = $updateStmt->execute([
-            'id' => $_GET['id'],
-            'title' => $_POST['title'],
-            'description' => $_POST['description']
+            'id' => $_POST['id'],           // ✅ Utiliser POST au lieu de GET
+            'title' => $title,              // ✅ Utiliser les variables validées
+            'description' => $description   // ✅ Utiliser les variables validées
         ]);
 
         if ($result) {
