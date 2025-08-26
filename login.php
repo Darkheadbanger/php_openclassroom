@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user['email'] === $email && password_verify($motDePasse, $user['password'])) {
                 // Utilisateur trouvé et mot de passe correct
                 $_SESSION['user'] = [
+                    'id' => $user['id'],           // ✅ Ajouter l'ID
                     'email' => $email,
                     'logged_in' => true
                 ];
