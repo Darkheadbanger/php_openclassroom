@@ -1,25 +1,17 @@
 <?php
-session_start();
-
 include_once __DIR__ . '/../../authentification/authentificationVerif.php';
 
 // Inclusion du rate limiter
 require_once __DIR__ . '/../../config/rateLimiter.php';
-
+require_once __DIR__ . '/../../services/RecipeService.php';
 // Traitement uniquement si formulaire soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Vérification rate limiting (3 recettes max par heure)
-    if (!checkAddRecipeLimit($_SESSION['user']['id'], 'add_recipe', 100, 3600)) {
-        $error = urlencode('Limite de 3 recettes par heure atteinte. Veuillez patienter.');
-        header("Location: /php_openclassroom/recipe.php?error=$error");
-        exit;
-    }
-    
+    // Vérification rate limiting (100 recettes max par heure)
+    rateLimitingValidation($userId, 'add_recipe', 100, 3600);
+
     // Vérification honeypot anti-bot
-    if (!empty($_POST['honeypot'])) {
-        die('🤖 Bot détecté !');
-    }
+    require_once __DIR__ . '/../../assets/protection/protectionCsrfAndHoneypot.php';
 
     // Inclusion de la connexion BDD
     require_once __DIR__ . '/../../config/databaseConnect.php';
@@ -32,15 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $is_enabled = isset($_POST['is_enabled']) ? 1 : 0;
 
         // Validation côté serveur
-        if (empty($title) || empty($description)) {
-            throw new Exception('Le titre et la description sont obligatoires.');
-        }
-        if (!is_string($author) || !is_int($is_enabled)) {
-            throw new Exception('Auteur ou statut invalide.');
-        }
-        if (strlen($title) > 255 || strlen($title) === 0 || strlen($description) === 0) {
-            throw new Exception('Le titre ne peut pas dépasser 255 caractères et la description ne peut pas être vide.');
-        }
+        serverValidation($title, $description, $author, $is_enabled);
 
         // Connexion BDD et insertion
         $pdo = getDatabaseConnection();
