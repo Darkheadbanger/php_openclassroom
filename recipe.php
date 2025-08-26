@@ -75,7 +75,6 @@ $FORM_RECIPE_ID = null;
                 <hr class="my-4">
 
                 <h2>Liste des recettes disponibles :</h2>
-                <!-- ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIII -->
                 <!-- Affichage des recettes -->
                 <?php
                 include_once __DIR__ . '/views/component/recipesInformation.php';

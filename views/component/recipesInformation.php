@@ -19,7 +19,11 @@
                                 <button class="btn btn-warning btn-sm m-2"><a href="./modifiedReicipe.php?id=<?php echo htmlspecialchars(
                                                                                                                     $recipe["id"]
                                                                                                                 ); ?>">Modifier</a></button>
-                                <button class="btn btn-danger btn-sm m-2">Supprimer</button>
+                                <form action="../../CRUD/recettes/deleteReicipe.php" method="POST">
+                                    <input type="hidden" id="id" name="id" value="<?php echo htmlspecialchars($recipe["id"]) ?>" />
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']) ?>" />
+                                    <button class="btn btn-danger btn-sm m-2" id="delete_button">Supprimer</button>
+                                </form>
                             </div>
                         </div>
                     <?php endforeach; ?>
