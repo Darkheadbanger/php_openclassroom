@@ -6,13 +6,19 @@ if (session_status() === PHP_SESSION_NONE) {
 // Vérification de l'authentification
 if (!isset($_SESSION['user']) || !$_SESSION['user']['logged_in']) {
     http_response_code(401);
-    die('Unauthorized access - Requête refusée');
+    echo 'Unauthorized access - Requête refusée';
+    sleep(2); // Délai pour ralentir les attaques par force brute
+    header('Location: ./login.php');
+    exit();
 }
 
 // Validation du token CSRF
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         http_response_code(403);
-        die('Invalid CSRF token - Requête refusée');
+        echo 'Invalid CSRF token - Requête refusée';
+        sleep(2); // Délai pour ralentir les attaques par force brute
+        header('Location: ./login.php');
+        exit();
     }
 }

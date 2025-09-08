@@ -41,6 +41,7 @@ $FORM_RECIPE_ID = null;
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <script type="text/javascript" src="./assets/js/forms/addRecipeForm.js"></script>
     <script type="text/javascript" src="./assets/js/buttons/buttonOpenClosed.js"></script>
+    <script type="text/javascript" src="./assets/js/buttons/buttonDelete.js"></script>
     <title>Recettes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
