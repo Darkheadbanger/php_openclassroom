@@ -39,3 +39,14 @@ function serverValidation($title, $description, $author, $is_enabled)
         throw new Exception('Le titre ne peut pas dépasser 255 caractères et la description ne peut pas être vide.');
     }
 }
+
+function serverValidationComment($comment)
+{
+    // Validation côté serveur pour les commentaires
+    if (empty($comment) || !is_string($comment) || strlen($comment) === 0) {
+        throw new Exception('Le commentaire ne peut pas être vide.');
+    }
+    if (strlen($comment) > 1000) {
+        throw new Exception('Le commentaire ne peut pas dépasser 1000 caractères.');
+    }
+}
