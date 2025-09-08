@@ -44,6 +44,8 @@ $FORM_RECIPE_ID = null;
     <script type="text/javascript" src="./assets/js/buttons/buttonDelete.js"></script>
     <title>Recettes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/5dcaefbf1a.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
